@@ -10,9 +10,9 @@ import javax.validation.constraints.Size;
 @Setter
 public class UserCreationDto {
 
-    @NotNull
+    /*@NotNull
     @Size(min = 4, max = 100)
-    private String fullName = "";
+    private String fullName = "";*/
 
     @NotNull
     @Size(min =4, max = 100)

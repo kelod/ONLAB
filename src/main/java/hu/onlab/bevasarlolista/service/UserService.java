@@ -36,4 +36,9 @@ public class UserService {
                 .build();
         userRepository.save(newUser);
     }
+
+    @Transactional(readOnly = true)
+    public User findById(Integer id) {
+        return userRepository.findById(id).get();
+    }
 }
