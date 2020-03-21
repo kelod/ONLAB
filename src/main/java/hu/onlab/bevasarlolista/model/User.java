@@ -50,4 +50,24 @@ public class User {
             inverseJoinColumns=@JoinColumn(name="listId")
     )
     private Set<Lista> participated_lists = new HashSet<>();
+
+    public void addParticipatedList(Lista lista){
+        if(lista != null){
+            participated_lists.add(lista);
+        }
+    }
+
+    public void addCreatedList(Lista lista){
+        if(lista != null) {
+            createdLists.add(lista);
+        }
+    }
+
+    public void deleteFromCreatedLists(Lista list){
+        createdLists.remove(list);
+    }
+
+    public void deleteFromParticipatedLists(Lista list){
+        participated_lists.remove(list);
+    }
 }

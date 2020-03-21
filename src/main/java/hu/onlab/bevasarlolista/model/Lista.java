@@ -24,7 +24,7 @@ public class Lista {
     private User creatorUser;
 
     @ManyToMany(mappedBy = "participated_lists")
-    private Set<User> participating_users;
+    private Set<User> participating_users = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "lista", cascade = CascadeType.ALL)
@@ -34,4 +34,11 @@ public class Lista {
     private String name;
     private boolean actual;
     private double vegosszeg;
+
+    public void addParticipatingUser(User newUser){
+        if(newUser != null) {
+            participating_users = new HashSet<>();
+            participating_users.add(newUser);
+        }
+    }
 }
