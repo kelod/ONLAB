@@ -4,6 +4,8 @@ package hu.onlab.bevasarlolista.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -11,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table//(name = "user")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -21,15 +23,31 @@ public class User {
     private String password;
     private String userName;
 
-    /*public String getPassword() {
-        return password;
-    }
+    @Builder.Default
+    @OneToMany(mappedBy = "creatorUser", cascade = CascadeType.ALL)
+    private Set<Lista> createdLists = new HashSet<>();
 
-    public Object getUserName() {
-        return userName;
-    }
+    @Builder.Default
+    @ManyToMany
+   @JoinTable(name="tbl_friends",
+            joinColumns=@JoinColumn(name="personId"),
+            inverseJoinColumns=@JoinColumn(name="friendId")
+    )
+    private Set<User> friends = new HashSet<>();
 
-    public Integer getId() {
-        return id;
-    }*/
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(name="tbl_friends",
+            joinColumns=@JoinColumn(name="friendId"),
+            inverseJoinColumns=@JoinColumn(name="personId")
+    )
+    private Set<User> friendOf = new HashSet<>();
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(name="tbl_users_in_lists",
+            joinColumns=@JoinColumn(name="personId"),
+            inverseJoinColumns=@JoinColumn(name="listId")
+    )
+    private Set<Lista> participated_lists = new HashSet<>();
 }
