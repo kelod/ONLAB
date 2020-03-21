@@ -24,5 +24,10 @@ public class Termek {
     @OneToMany(mappedBy = "termek", cascade = CascadeType.ALL)
     private Set<TermekLista> participated_lists = new HashSet<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "termek", cascade = CascadeType.ALL)
+    private Set<ShopTermek> present_in_shops = new HashSet<>();
+
     private String name;
+    private String mertekegyseg;
 }

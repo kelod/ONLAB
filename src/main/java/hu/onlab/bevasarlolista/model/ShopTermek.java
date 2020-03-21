@@ -14,20 +14,18 @@ import javax.persistence.MapsId;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TermekLista {
+public class ShopTermek {
 
     @EmbeddedId
-    TermekListaKey id;
+    ShopTermekKey id;
 
     @ManyToOne
     @MapsId("termekId")
     private Termek termek;
 
     @ManyToOne
-    @MapsId("listaId")
-    private Lista lista;
+    @MapsId("shopId")
+    private Shop shop;
 
-    private double quantity;
-
-    private boolean is_bought;
+    private double egysegar;
 }
