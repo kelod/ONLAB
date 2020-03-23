@@ -64,9 +64,9 @@ public class UserService {
                         creatorUser(creator).
                         build();
 
-        newList.addParticipatingUser(creator);
+        //newList.addParticipatingUser(creator);
 
-        creator.addParticipatedList(newList);
+        //creator.addParticipatedList(newList);
         creator.addCreatedList(newList);
 
         listaRepository.save(newList);

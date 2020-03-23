@@ -70,5 +70,56 @@
         </tr>
         </tbody>
     </table>
+
+    <h2>Your lists</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th> Title</th>
+            <th> Creation Time</th>
+            <th> actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="createdList : ${createdLists}">
+            <td><span th:text="${createdList.name}"> Name </span></td>
+            <td><span th:text="${createdList.creation_time}"> Creation Time </span></td>
+            <td>
+                <div th:if="${createdList.actual}">
+                <form th:action="@{/account/openList}" method="post">
+                    <input type="hidden" th:value="${createdList.id}" name="listId"/>
+
+                        <input type="submit" value="open List"/>
+
+
+                </form>
+                </div>
+                <form th:action="@{/account/removeList}" method="post">
+                    <input type="hidden" th:value="${createdList.id}" name="listId"/>
+                    <input type="submit" value="remove List"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+
+
+        <tr th:each="participatedList : ${participatedLists}">
+            <td><span th:text="${participatedList.name}"> Name </span></td>
+            <td><span th:text="${participatedList.creation_time}"> Creation Time </span></td>
+            <td>
+                <div th:if="${participatedList.actual}">
+                <form th:action="@{/account/openList}" method="post">
+                    <input type="hidden" th:value="${participatedList.id}" name="listId"/>
+
+                        <input type="submit" value="open List"/>
+
+                </form>
+                </div>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>

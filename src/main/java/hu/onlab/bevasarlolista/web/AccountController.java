@@ -40,6 +40,9 @@ public class AccountController {
 
         model.addAttribute("unknowns", allUser);
 
+        model.addAttribute("createdLists", user.getCreatedLists());
+        model.addAttribute("participatedLists", user.getParticipated_lists());
+
         return "account";
     }
 
