@@ -14,5 +14,61 @@
         </form>
     </div>
 
+    <h2>Your friends:</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th> Name</th>
+            <th> id</th>
+            <th> action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${friends.empty}">
+            <td colspan="3"> You have no friends yet</td>
+        </tr>
+        <tr th:each="friend : ${friends}">
+            <td><span th:text="${friend.userName}"> Name </span></td>
+            <td><span th:text="${friend.id}"> id </span></td>
+            <td>
+                <form th:action="@{/account/delete}" method="post">
+                    <input type="hidden" th:value="${friend.id}" name="userId"/>
+                    <input type="submit" value="remove friend"/>
+
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h2>People to know</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th> Name</th>
+            <th> id</th>
+            <th> action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${unknowns.empty}">
+            <td colspan="3"> You know every people!</td>
+        </tr>
+        <tr th:each="unknown : ${unknowns}">
+            <td><span th:text="${unknown.userName}"> Name </span></td>
+            <td><span th:text="${unknown.id}"> id </span></td>
+            <td>
+                <form th:action="@{/account/addFriend}" method="post">
+                    <input type="hidden" th:value="${unknown.id}" name="userId"/>
+                    <input type="submit" value="add friend"/>
+
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>

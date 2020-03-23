@@ -88,4 +88,16 @@ public class UserService {
 
         listaRepository.delete(listToDelete);
     }
+
+    @Transactional
+    public void addFriend(User user1, User friend){
+        User user = userRepository.findById(user1.getId()).get();
+        User friend_to_add = userRepository.findById(friend.getId()).get();
+
+        user.addFriend(friend_to_add);
+
+        userRepository.save(user);
+        userRepository.save(friend_to_add);
+    }
+
 }

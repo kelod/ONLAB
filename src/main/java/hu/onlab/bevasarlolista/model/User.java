@@ -70,4 +70,9 @@ public class User {
     public void deleteFromParticipatedLists(Lista list){
         participated_lists.remove(list);
     }
+
+    public void addFriend(User newFriend){
+        this.friends.add(newFriend);
+        this.friendOf.add(newFriend);
+    }
 }
