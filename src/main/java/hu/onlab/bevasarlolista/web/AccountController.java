@@ -55,9 +55,17 @@ public class AccountController {
     }
 
     @PostMapping("addFriend")
-    public String addFriend(@RequestParam(value = "userId") Integer LuserId, Principal userPrincipal){
+    public String addFriend(@RequestParam(value = "userId") Integer userId, Principal userPrincipal){
         User current_user = userRepository.findById(Integer.parseInt(userPrincipal.getName())).get();
-        userService.addFriend(current_user, userRepository.findById(LuserId).get());
+        userService.addFriend(current_user, userRepository.findById(userId).get());
+
+        return "redirect:/account/";
+    }
+
+    @PostMapping("/delete")
+    public String deleteFriend(@RequestParam Integer userId, Principal userPrincipal){
+        User current_user = userRepository.findById(Integer.parseInt(userPrincipal.getName())).get();
+        userService.deleteFriend(current_user, userRepository.findById(userId).get());
 
         return "redirect:/account/";
     }

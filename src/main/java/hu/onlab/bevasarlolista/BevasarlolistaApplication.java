@@ -27,8 +27,8 @@ public class BevasarlolistaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User testUser = User.builder().userName("commanLineUser").password("commandLinePassw").build();
+        /*User testUser = User.builder().userName("commanLineUser").password("commandLinePassw").build();
         userRepository.save(testUser);
-        userService.createListaWithName(testUser, "commandLineListName");
+        userService.createListaWithName(testUser, "commandLineListName");*/
     }
 }

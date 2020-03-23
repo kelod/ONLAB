@@ -100,4 +100,12 @@ public class UserService {
         userRepository.save(friend_to_add);
     }
 
+    @Transactional
+    public void deleteFriend(User user1, User user2){
+        user1.removeFriend(user2);
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+    }
+
 }
