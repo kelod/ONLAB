@@ -40,8 +40,8 @@ public class BevasarlolistaApplication implements CommandLineRunner {
 
         /*User testUser = userRepository.findByNameIs("test1");
         userService.createListaWithName(testUser, "testList");*/
-        Lista list = listaRepository.findById(11).get();
+        /*Lista list = listaRepository.findById(11).get();
         list.setActual(false);
-        listaRepository.save(list);
+        listaRepository.save(list);*/
     }
 }

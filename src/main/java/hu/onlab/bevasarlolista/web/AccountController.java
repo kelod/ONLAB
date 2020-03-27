@@ -1,7 +1,9 @@
 package hu.onlab.bevasarlolista.web;
 
 
+import hu.onlab.bevasarlolista.model.Lista;
 import hu.onlab.bevasarlolista.model.User;
+import hu.onlab.bevasarlolista.repository.ListaRepository;
 import hu.onlab.bevasarlolista.repository.UserRepository;
 import hu.onlab.bevasarlolista.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class AccountController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ListaRepository listaRepository;
 
     @GetMapping("/")
     public String accountPage(Model model, Principal userPrincipal) {
@@ -71,6 +76,16 @@ public class AccountController {
         userService.deleteFriend(current_user, userRepository.findById(userId).get());
 
         return "redirect:/account/";
+    }
+
+    @PostMapping("/openList")
+    public String openList(@RequestParam Integer listId, Principal userPrincipal){
+        Lista list = listaRepository.findById(listId).get();
+        User user = userRepository.findById(Integer.parseInt(userPrincipal.getName())).get();
+
+
+
+        return "list";
     }
 
 }
