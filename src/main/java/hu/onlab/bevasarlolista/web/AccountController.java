@@ -1,6 +1,7 @@
 package hu.onlab.bevasarlolista.web;
 
 
+import hu.onlab.bevasarlolista.dto.ListCreationDto;
 import hu.onlab.bevasarlolista.model.Lista;
 import hu.onlab.bevasarlolista.model.User;
 import hu.onlab.bevasarlolista.repository.ListaRepository;
@@ -10,14 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -83,9 +82,35 @@ public class AccountController {
         Lista list = listaRepository.findById(listId).get();
         User user = userRepository.findById(Integer.parseInt(userPrincipal.getName())).get();
 
-
-
         return "list";
+    }
+
+    @PostMapping("/removeList")
+    public String removeList(@RequestParam Integer listId, Principal userPrincipal){
+        User user = userRepository.findById(Integer.parseInt(userPrincipal.getName())).get();
+        Lista listToDelete = listaRepository.findById(listId).get();
+
+        userService.deleteList(listToDelete);
+
+        return "redirect:/account/";
+    }
+
+
+    @GetMapping("/createList")
+    public String createList(Model model, Principal userPrincipal){
+        ListCreationDto listDto = new ListCreationDto();
+        listDto.setCreatorInteger(Integer.parseInt(userPrincipal.getName()));
+        model.addAttribute("listDto", listDto);
+
+        return "createList";
+    }
+
+    @PostMapping("/createList")
+    public String createList(@ModelAttribute ListCreationDto list, Principal userPrincipal){
+        User user = userRepository.findById(Integer.parseInt(userPrincipal.getName())).get();
+        userService.createListaWithName(user, list.getName());
+
+        return "redirect:/account/";
     }
 
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crete a new List</title>
+</head>
+<body>
+
+<div>
+    <button th:onclick="|document.location = '@{/account/}'|" type="button">Back to account</button>
+</div>
+
+<form
+        novalidate th:object="${listDto}" action="/account/createList" method=post>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <div>
+        <label for="title">Name:</label>
+        <input type="text" required th:field="*{name}" id="title" minlength="2" maxlength="50">
+    </div>
+
+    <button type="submit">
+        Create List
+    </button>
+</form>
+
+</body>
+</html>
