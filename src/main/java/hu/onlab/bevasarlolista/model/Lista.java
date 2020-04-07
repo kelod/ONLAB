@@ -37,8 +37,16 @@ public class Lista {
 
     public void addParticipatingUser(User newUser){
         if(newUser != null) {
-            participating_users = new HashSet<>();
+            if(participating_users == null) {
+                participating_users = new HashSet<>();
+            }
             participating_users.add(newUser);
+        }
+    }
+
+    public void removeParticipatingUser(User user){
+        if(user != null){
+            participating_users.remove(user);
         }
     }
 }

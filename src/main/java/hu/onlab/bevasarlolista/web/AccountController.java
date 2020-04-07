@@ -6,6 +6,7 @@ import hu.onlab.bevasarlolista.model.Lista;
 import hu.onlab.bevasarlolista.model.User;
 import hu.onlab.bevasarlolista.repository.ListaRepository;
 import hu.onlab.bevasarlolista.repository.UserRepository;
+import hu.onlab.bevasarlolista.service.ListaService;
 import hu.onlab.bevasarlolista.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,9 @@ public class AccountController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ListaService listaService;
 
     @Autowired
     UserRepository userRepository;
@@ -78,9 +82,17 @@ public class AccountController {
     }
 
     @PostMapping("/openList")
-    public String openList(@RequestParam Integer listId, Principal userPrincipal){
+    public String openList(@RequestParam(name = "listId") Integer listId, Principal userPrincipal, Model model){
         Lista list = listaRepository.findById(listId).get();
         User user = userRepository.findById(Integer.parseInt(userPrincipal.getName())).get();
+        model.addAttribute("list", list);
+        model.addAttribute("user", user);
+        if(user.getCreatedLists().contains(list)){
+            model.addAttribute("isCreatorOfList", true);
+        }
+        else{
+            model.addAttribute("isCreatorOfList", false);
+        }
 
         return "list";
     }
@@ -111,6 +123,30 @@ public class AccountController {
         userService.createListaWithName(user, list.getName());
 
         return "redirect:/account/";
+    }
+
+    @PostMapping("/removeFriendFromList")
+    public String removeFriendFromList(@RequestParam(name = "userId") Integer userId,
+                                       @RequestParam(name = "listId") Integer listId,
+                                       Principal userPrincipal,
+                                       Model model){
+        User removedUser = userRepository.findById(userId).get();
+        Lista listToRemoveFrom = listaRepository.findById(listId).get();
+
+        listaService.removeParticipatingUser(removedUser, listToRemoveFrom);
+
+        //return "redirect:/openList?listId=" + listToRemoveFrom.getId().toString();
+        return openList(listId, userPrincipal, model);
+    }
+
+    @PostMapping("/addFriendToList")
+    public String addFriendToList(@RequestParam(name = "userId") Integer userId,
+                                  @RequestParam(name = "listId") Integer listId,
+                                  Principal userPrincipal,
+                                  Model model){
+        listaService.addUserToParticipate(userId, listId);
+        //return "redirect:/openList?listId=" + listId.toString();
+        return openList(listId, userPrincipal, model);
     }
 
 }

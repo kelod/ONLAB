@@ -6,8 +6,76 @@
 </head>
 <body>
 
+<h1 th:text="${list.name}">Name of List</h1>
+
 <div>
     <button th:onclick="|document.location = '@{/account/}'|" type="button">Back to account</button>
+</div>
+
+
+<h2>Friends participating in this list:</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th> Name</th>
+        <th> id</th>
+        <th> action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${list.participating_users.empty}">
+        <td colspan="3">There no participating friends.</td>
+    </tr>
+    <tr th:each="friend : ${list.participating_users}">
+        <td><span th:text="${friend.userName}"> Name </span></td>
+        <td><span th:text="${friend.id}"> id </span></td>
+        <td>
+            <div th:if="${isCreatorOfList}">
+            <form th:action="@{/account/removeFriendFromList}" method="post">
+                <input type="hidden" th:value="${friend.id}" name="userId"/>
+                <input type="hidden" th:value="${list.id}" name="listId"/>
+                <input type="submit" value="remove friend from list"/>
+
+            </form>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<div th:if="${isCreatorOfList}">
+<h2>Your friends:</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th> Name</th>
+        <th> id</th>
+        <th> action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${user.friends.empty}">
+        <td colspan="3">You have no friends yet!</td>
+    </tr>
+    <tr th:each="friend : ${user.friends}">
+        <td><span th:text="${friend.userName}"> Name </span></td>
+        <td><span th:text="${friend.id}"> id </span></td>
+        <td>
+
+            <form th:action="@{/account/addFriendToList}" method="post">
+                <input type="hidden" th:value="${friend.id}" name="userId"/>
+                <input type="hidden" th:value="${list.id}" name="listId"/>
+                <input type="submit" value="add friend to list"/>
+
+            </form>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
 </div>
 
 </body>
