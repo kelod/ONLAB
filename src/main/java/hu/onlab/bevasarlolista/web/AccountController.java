@@ -2,9 +2,12 @@ package hu.onlab.bevasarlolista.web;
 
 
 import hu.onlab.bevasarlolista.dto.ListCreationDto;
+import hu.onlab.bevasarlolista.dto.ProductAddingDto;
 import hu.onlab.bevasarlolista.model.Lista;
+import hu.onlab.bevasarlolista.model.Termek;
 import hu.onlab.bevasarlolista.model.User;
 import hu.onlab.bevasarlolista.repository.ListaRepository;
+import hu.onlab.bevasarlolista.repository.TermekRepository;
 import hu.onlab.bevasarlolista.repository.UserRepository;
 import hu.onlab.bevasarlolista.service.ListaService;
 import hu.onlab.bevasarlolista.service.UserService;
@@ -35,6 +38,9 @@ public class AccountController {
 
     @Autowired
     ListaRepository listaRepository;
+
+    @Autowired
+    TermekRepository termekRepository;
 
     @GetMapping("/")
     public String accountPage(Model model, Principal userPrincipal) {
@@ -94,6 +100,8 @@ public class AccountController {
             model.addAttribute("isCreatorOfList", false);
         }
 
+        model.addAttribute("productsInList", list.getTermekek());
+
         return "list";
     }
 
@@ -147,6 +155,38 @@ public class AccountController {
         listaService.addUserToParticipate(userId, listId);
         //return "redirect:/openList?listId=" + listId.toString();
         return openList(listId, userPrincipal, model);
+    }
+
+    @PostMapping("/createProduct")
+    public String createProduct(@RequestParam Integer listId, Model model){
+        System.out.println("listId = " + listId);
+
+        List<Termek> allProducts = termekRepository.findAll();
+        model.addAttribute("products", allProducts);
+
+        ProductAddingDto productDto = new ProductAddingDto();
+        productDto.setListId(listId);
+        model.addAttribute("productDto", productDto);
+        model.addAttribute("listId", listId);
+        System.out.println("productDto list ID-ja hozzaadas utan : " + productDto.getListId());
+
+        model.addAttribute("listId", listId);
+        return "createProduct";
+    }
+
+    @PostMapping("/addProduct")
+    public String addProduct(@ModelAttribute(name="productDto")ProductAddingDto productDto,
+                             @RequestParam(name="listId") Integer listId,
+                             Principal userPrincipal,
+                             Model model){
+        System.out.println("ilyen id-t keresek : " + listId);
+
+        Lista list = listaRepository.findById(listId).get();
+
+        listaService.addProductToList(list, productDto);
+
+        return openList(listId, userPrincipal, model);
+
     }
 
 }

@@ -76,7 +76,38 @@
     </tr>
     </tbody>
 </table>
+
+
+
+<h2>Add new product to your List</h2>
+<form th:action="@{/account/createProduct}" method="post">
+    <input type="hidden" th:value="${list.id}" name="listId"/>
+    <input type="submit" value="add new product"/>
+</form>
+
 </div>
+
+
+<table>
+    <thead>
+    <tr>
+        <th> Product</th>
+        <th> Quantity</th>
+        <th> Buy</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="productInList : ${productsInList}">
+        <td><span th:text="${productInList.termek.name}"> Name </span></td>
+        <td><span th:text="${productInList.quantity}"> Quantity </span></td>
+        <td>
+
+        </td>
+    </tr>
+
+    </tbody>
+</table>
 
 </body>
 </html>

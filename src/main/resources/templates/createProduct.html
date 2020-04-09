@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a product to your list</title>
+</head>
+<body>
+
+<form
+        novalidate th:object="${productDto}" action="/account/addProduct" method=post>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div>
+        <input type="hidden" th:value="${listId}" name="listId"/>
+        <label for="name">Name:</label>
+        <select th:field="${productDto.name}" id="name">
+            <option th:each="product : ${products}" th:value="${product.name}" th:text="${product.name}">
+            </option>
+        </select>
+        <label for="quantity">Quantity:</label>
+        <input type="number" required th:field="${productDto.quantity}" id="quantity">
+    </div>
+
+    <button type="submit">
+        Add product
+    </button>
+</form>
+
+</body>
+</html>

@@ -49,4 +49,11 @@ public class Lista {
             participating_users.remove(user);
         }
     }
+
+    public void addTermek(TermekLista termekLista){
+        if(termekek == null){
+            termekek = new HashSet<>();
+        }
+        termekek.add(termekLista);
+    }
 }

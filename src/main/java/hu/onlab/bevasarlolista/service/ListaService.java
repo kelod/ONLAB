@@ -1,8 +1,13 @@
 package hu.onlab.bevasarlolista.service;
 
+import hu.onlab.bevasarlolista.dto.ProductAddingDto;
 import hu.onlab.bevasarlolista.model.Lista;
+import hu.onlab.bevasarlolista.model.Termek;
+import hu.onlab.bevasarlolista.model.TermekLista;
 import hu.onlab.bevasarlolista.model.User;
 import hu.onlab.bevasarlolista.repository.ListaRepository;
+import hu.onlab.bevasarlolista.repository.TermekListaRepository;
+import hu.onlab.bevasarlolista.repository.TermekRepository;
 import hu.onlab.bevasarlolista.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +21,12 @@ public class ListaService {
 
     @Autowired
     ListaRepository listaRepository;
+
+    @Autowired
+    TermekRepository termekRepository;
+
+    @Autowired
+    TermekListaRepository termekListaRepository;
 
     @Transactional
     public void removeParticipatingUser(User user, Lista list){
@@ -39,5 +50,26 @@ public class ListaService {
 
         userRepository.save(userToAdd);
         listaRepository.save(listToAdd);
+    }
+
+    @Transactional
+    public void addProductToList(Lista list, ProductAddingDto productDto){
+        Lista actual_list = listaRepository.findById(list.getId()).get();
+        Termek termekToAdd = termekRepository.findByName(productDto.getName());
+
+        TermekLista termekLista = new TermekLista(termekToAdd, actual_list);
+        termekLista.setQuantity(productDto.getQuantity());
+        /*termekLista.setLista(actual_list);
+        termekLista.setTermek(termekToAdd);*/
+        /*termekLista.getId().setListaId(actual_list.getId());
+        termekLista.getId().setTermekId(termekToAdd.getId());*/
+
+        /*actual_list.addTermek(termekLista);
+        termekToAdd.addParticipatedList(termekLista);*/
+
+        termekRepository.save(termekToAdd);
+        listaRepository.save(actual_list);
+        termekListaRepository.save(termekLista);
+
     }
 }

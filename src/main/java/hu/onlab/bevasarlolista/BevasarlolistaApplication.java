@@ -1,8 +1,10 @@
 package hu.onlab.bevasarlolista;
 
 import hu.onlab.bevasarlolista.model.Lista;
+import hu.onlab.bevasarlolista.model.Termek;
 import hu.onlab.bevasarlolista.model.User;
 import hu.onlab.bevasarlolista.repository.ListaRepository;
+import hu.onlab.bevasarlolista.repository.TermekRepository;
 import hu.onlab.bevasarlolista.repository.UserRepository;
 import hu.onlab.bevasarlolista.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class BevasarlolistaApplication implements CommandLineRunner {
     @Autowired
     ListaRepository listaRepository;
 
+    @Autowired
+    TermekRepository termekRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(BevasarlolistaApplication.class, args);
     }
@@ -43,5 +48,11 @@ public class BevasarlolistaApplication implements CommandLineRunner {
         /*Lista list = listaRepository.findById(11).get();
         list.setActual(false);
         listaRepository.save(list);*/
+
+        /*Termek termek = Termek.builder().name("Narancs").mertekegyseg("kg").build();
+        Termek termek2 = Termek.builder().name("Viz").mertekegyseg("liter").build();
+        termekRepository.save(termek);
+        termekRepository.save(termek2);*/
+
     }
 }
