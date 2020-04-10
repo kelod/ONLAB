@@ -3,9 +3,7 @@ package hu.onlab.bevasarlolista.web;
 
 import hu.onlab.bevasarlolista.dto.ListCreationDto;
 import hu.onlab.bevasarlolista.dto.ProductAddingDto;
-import hu.onlab.bevasarlolista.model.Lista;
-import hu.onlab.bevasarlolista.model.Termek;
-import hu.onlab.bevasarlolista.model.User;
+import hu.onlab.bevasarlolista.model.*;
 import hu.onlab.bevasarlolista.repository.ListaRepository;
 import hu.onlab.bevasarlolista.repository.TermekRepository;
 import hu.onlab.bevasarlolista.repository.UserRepository;
@@ -21,7 +19,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/account")
@@ -102,6 +102,11 @@ public class AccountController {
 
         model.addAttribute("productsInList", list.getTermekek());
 
+        List<User> friendsToAdd = userRepository.findAll();
+        friendsToAdd.retainAll(user.getFriends());
+        friendsToAdd.removeAll(list.getParticipating_users());
+        model.addAttribute("friendsToAdd", friendsToAdd);
+
         return "list";
     }
 
@@ -179,14 +184,25 @@ public class AccountController {
                              @RequestParam(name="listId") Integer listId,
                              Principal userPrincipal,
                              Model model){
-        System.out.println("ilyen id-t keresek : " + listId);
 
         Lista list = listaRepository.findById(listId).get();
 
         listaService.addProductToList(list, productDto);
 
         return openList(listId, userPrincipal, model);
+    }
 
+    @PostMapping("/buyProduct")
+    public String buyProduct(@RequestParam(name = "termekId") Integer termekId,
+                             @RequestParam(name = "listId") Integer listId,
+                             Principal userPrincipal,
+                             Model model){
+        /*if(productInList.getLista() == null || productInList.getTermek() == null){
+            System.out.println("Itt valami null");
+        }*/
+        listaService.buyProduct(listId, termekId);
+
+        return openList(listId, userPrincipal, model);
     }
 
 }

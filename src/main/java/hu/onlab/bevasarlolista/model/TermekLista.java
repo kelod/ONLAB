@@ -28,7 +28,7 @@ public class TermekLista {
 
     private double quantity;
 
-    private boolean is_bought;
+    public boolean is_bought;
 
     public TermekLista(Termek termek, Lista lista){
         this.termek = termek;

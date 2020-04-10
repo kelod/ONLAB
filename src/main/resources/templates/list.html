@@ -46,7 +46,7 @@
 
 
 <div th:if="${isCreatorOfList}">
-<h2>Your friends:</h2>
+<h2>Your friends to add:</h2>
 
 <table>
     <thead>
@@ -60,7 +60,7 @@
     <tr th:if="${user.friends.empty}">
         <td colspan="3">You have no friends yet!</td>
     </tr>
-    <tr th:each="friend : ${user.friends}">
+    <tr th:each="friend : ${friendsToAdd}">
         <td><span th:text="${friend.userName}"> Name </span></td>
         <td><span th:text="${friend.id}"> id </span></td>
         <td>
@@ -99,11 +99,18 @@
     <tbody>
 
     <tr th:each="productInList : ${productsInList}">
-        <td><span th:text="${productInList.termek.name}"> Name </span></td>
-        <td><span th:text="${productInList.quantity}"> Quantity </span></td>
-        <td>
+            <td><span th:text="${productInList.termek.name}"> Name </span></td>
+            <td><span th:text="${productInList.quantity}"> Quantity </span></td>
+            <td>
+                <div th:if="!${productInList.is_bought}">
+                    <form th:action="@{/account/buyProduct}" method="post">
+                        <input type="hidden" th:value="${productInList.termek.id}" name="termekId"/>
+                        <input type="hidden" th:value="${productInList.lista.id}" name="listId"/>
+                        <input type="submit" value="buy"/>
 
-        </td>
+                    </form>
+                </div>
+            </td>
     </tr>
 
     </tbody>

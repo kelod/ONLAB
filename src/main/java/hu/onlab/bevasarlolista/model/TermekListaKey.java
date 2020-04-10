@@ -36,4 +36,11 @@ public class TermekListaKey implements Serializable {
         return Objects.hash(termekId, listaId);
     }
 
+    public  TermekListaKey(){}
+
+    public TermekListaKey(Integer termekId, Integer listaId){
+        this.termekId = termekId;
+        this.listaId = listaId;
+    }
+
 }

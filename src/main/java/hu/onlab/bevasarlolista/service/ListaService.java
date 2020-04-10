@@ -1,10 +1,7 @@
 package hu.onlab.bevasarlolista.service;
 
 import hu.onlab.bevasarlolista.dto.ProductAddingDto;
-import hu.onlab.bevasarlolista.model.Lista;
-import hu.onlab.bevasarlolista.model.Termek;
-import hu.onlab.bevasarlolista.model.TermekLista;
-import hu.onlab.bevasarlolista.model.User;
+import hu.onlab.bevasarlolista.model.*;
 import hu.onlab.bevasarlolista.repository.ListaRepository;
 import hu.onlab.bevasarlolista.repository.TermekListaRepository;
 import hu.onlab.bevasarlolista.repository.TermekRepository;
@@ -70,6 +67,14 @@ public class ListaService {
         termekRepository.save(termekToAdd);
         listaRepository.save(actual_list);
         termekListaRepository.save(termekLista);
+    }
 
+    @Transactional
+    public void buyProduct(Integer listId, Integer termekId){
+        TermekLista termekLista = termekListaRepository.findByTermekIdAndListaId(termekId, listId);
+        System.out.println("listId = " + listId + " termekId = " + termekId);
+        termekLista.set_bought(true);
+
+        termekListaRepository.save(termekLista);
     }
 }
