@@ -1,11 +1,7 @@
 package hu.onlab.bevasarlolista;
 
-import hu.onlab.bevasarlolista.model.Lista;
-import hu.onlab.bevasarlolista.model.Termek;
-import hu.onlab.bevasarlolista.model.User;
-import hu.onlab.bevasarlolista.repository.ListaRepository;
-import hu.onlab.bevasarlolista.repository.TermekRepository;
-import hu.onlab.bevasarlolista.repository.UserRepository;
+import hu.onlab.bevasarlolista.model.*;
+import hu.onlab.bevasarlolista.repository.*;
 import hu.onlab.bevasarlolista.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -33,6 +29,12 @@ public class BevasarlolistaApplication implements CommandLineRunner {
     @Autowired
     TermekRepository termekRepository;
 
+    @Autowired
+    ShopRepository shopRepository;
+
+    @Autowired
+    ShopTermekRepository shopTermekRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(BevasarlolistaApplication.class, args);
     }
@@ -54,5 +56,21 @@ public class BevasarlolistaApplication implements CommandLineRunner {
         termekRepository.save(termek);
         termekRepository.save(termek2);*/
 
+        /*Shop shop1 = new Shop().builder().name("Aldi").build();
+        Shop shop2 = new Shop().builder().name("Lidl").build();
+
+        shopRepository.save(shop1);
+        shopRepository.save(shop2);
+
+        Termek viz = termekRepository.findByName("Viz");
+
+        ShopTermek aldiViz = new ShopTermek();
+        aldiViz.setEgysegar(100);
+        aldiViz.setShop(shop1);
+        aldiViz.setTermek(viz);
+
+        shopTermekRepository.save(aldiViz);
+        termekRepository.save(viz);
+        shopRepository.save(shop1);*/
     }
 }

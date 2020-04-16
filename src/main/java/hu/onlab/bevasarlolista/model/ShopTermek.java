@@ -11,7 +11,6 @@ import javax.persistence.MapsId;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ShopTermek {
@@ -28,4 +27,8 @@ public class ShopTermek {
     private Shop shop;
 
     private double egysegar;
+
+    public ShopTermek(){
+        this.id = new ShopTermekKey();
+    }
 }

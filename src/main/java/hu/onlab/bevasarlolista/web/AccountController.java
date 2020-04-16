@@ -3,8 +3,10 @@ package hu.onlab.bevasarlolista.web;
 
 import hu.onlab.bevasarlolista.dto.ListCreationDto;
 import hu.onlab.bevasarlolista.dto.ProductAddingDto;
+import hu.onlab.bevasarlolista.dto.ShopTermekDto;
 import hu.onlab.bevasarlolista.model.*;
 import hu.onlab.bevasarlolista.repository.ListaRepository;
+import hu.onlab.bevasarlolista.repository.ShopTermekRepository;
 import hu.onlab.bevasarlolista.repository.TermekRepository;
 import hu.onlab.bevasarlolista.repository.UserRepository;
 import hu.onlab.bevasarlolista.service.ListaService;
@@ -18,10 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/account")
@@ -41,6 +40,9 @@ public class AccountController {
 
     @Autowired
     TermekRepository termekRepository;
+
+    @Autowired
+    ShopTermekRepository shopTermekRepository;
 
     @GetMapping("/")
     public String accountPage(Model model, Principal userPrincipal) {
@@ -200,7 +202,27 @@ public class AccountController {
         /*if(productInList.getLista() == null || productInList.getTermek() == null){
             System.out.println("Itt valami null");
         }*/
-        listaService.buyProduct(listId, termekId);
+
+
+        /*listaService.buyProduct(listId, termekId);
+
+        return openList(listId, userPrincipal, model);*/
+
+        List<ShopTermek> productShops = shopTermekRepository.findByTermekId(termekId);
+        model.addAttribute("productShops", productShops);
+        model.addAttribute("termekId", termekId);
+        model.addAttribute("listaId", listId);
+
+        return "buyProduct";
+    }
+
+    @PostMapping("/productBought")
+    public String productBought(@RequestParam(name="egysegar") Double egysegar,
+                                @RequestParam(name="termekId") Integer productId,
+                                @RequestParam(name = "listaId") Integer listId,
+                                Principal userPrincipal,
+                                Model model){
+        listaService.buyProduct(productId, listId, egysegar);
 
         return openList(listId, userPrincipal, model);
     }

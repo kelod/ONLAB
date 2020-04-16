@@ -56,4 +56,8 @@ public class Lista {
         }
         termekek.add(termekLista);
     }
+
+    public void addOsszeg(double n){
+        vegosszeg += n;
+    }
 }

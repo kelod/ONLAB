@@ -70,11 +70,14 @@ public class ListaService {
     }
 
     @Transactional
-    public void buyProduct(Integer listId, Integer termekId){
-        TermekLista termekLista = termekListaRepository.findByTermekIdAndListaId(termekId, listId);
-        System.out.println("listId = " + listId + " termekId = " + termekId);
+    public void buyProduct(Integer productId, Integer listId, Double egysegar){
+        TermekLista termekLista = termekListaRepository.findByTermekIdAndListaId(productId, listId);
+        Lista list = listaRepository.findById(listId).get();
+
+        list.addOsszeg(egysegar*termekLista.getQuantity());
         termekLista.set_bought(true);
 
         termekListaRepository.save(termekLista);
+        listaRepository.save(list);
     }
 }

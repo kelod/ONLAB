@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy Product</title>
+</head>
+<body>
+
+<div>
+    <button th:onclick="|document.location = '@{/account/}'|" type="button">Back to account</button>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th> ShopName</th>
+        <th> Egysegar</th>
+        <th> Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${productShops.empty}">
+        <td colspan="3"> There are no shops that sell this product</td>
+    </tr>
+    <tr th:each="productShop : ${productShops}">
+        <td><span th:text="${productShop.shop.name}"> ShopName </span></td>
+        <td><span th:text="${productShop.egysegar}"> Egysegar </span></td>
+        <td>
+            <form th:action="@{/account/productBought}" method="post">
+                <input type="hidden" th:value="${productShop.egysegar}" name="egysegar"/>
+                <input type="hidden" th:value="${termekId}" name="termekId"/>
+                <input type="hidden" th:value="${listaId}" name="listaId"/>
+                <input type="submit" value="buy!"/>
+
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
