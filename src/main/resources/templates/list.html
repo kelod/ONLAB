@@ -13,7 +13,7 @@
 </div>
 
 
-<h2>Friends participating in this list:</h2>
+<h2>Users participating in this list:</h2>
 
 <table>
     <thead>
@@ -24,10 +24,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${list.participating_users.empty}">
-        <td colspan="3">There no participating friends.</td>
+    <tr th:if="${partUsers.empty}">
+        <td colspan="3">There no participating users.</td>
     </tr>
-    <tr th:each="friend : ${list.participating_users}">
+    <tr th:each="friend : ${partUsers}">
         <td><span th:text="${friend.userName}"> Name </span></td>
         <td><span th:text="${friend.id}"> id </span></td>
         <td>

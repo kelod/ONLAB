@@ -109,6 +109,15 @@ public class AccountController {
         friendsToAdd.removeAll(list.getParticipating_users());
         model.addAttribute("friendsToAdd", friendsToAdd);
 
+        List<User> partUsers = new ArrayList<>();
+        list.getParticipating_users().forEach(part -> {
+            if(part != user){
+                partUsers.add(part);
+            }
+        });
+        partUsers.add(list.getCreatorUser());
+        model.addAttribute("partUsers", partUsers);
+
         return "list";
     }
 
