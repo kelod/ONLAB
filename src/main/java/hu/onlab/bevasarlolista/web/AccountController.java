@@ -110,12 +110,13 @@ public class AccountController {
         model.addAttribute("friendsToAdd", friendsToAdd);
 
         List<User> partUsers = new ArrayList<>();
+        partUsers.add(list.getCreatorUser());
         list.getParticipating_users().forEach(part -> {
             if(part != user){
                 partUsers.add(part);
             }
         });
-        partUsers.add(list.getCreatorUser());
+
         model.addAttribute("partUsers", partUsers);
 
         return "list";
@@ -234,6 +235,17 @@ public class AccountController {
         listaService.buyProduct(productId, listId, egysegar);
 
         return openList(listId, userPrincipal, model);
+    }
+
+    @PostMapping("/toggleActivationList")
+    public String toggleActivation(@RequestParam(name="listId") Integer listId,
+                                   Principal userPrincipal,
+                                   Model model){
+        Lista list = listaRepository.findById(listId).get();
+        list.setActual(!list.isActual());
+        listaRepository.save(list);
+
+        return accountPage(model, userPrincipal);
     }
 
 }

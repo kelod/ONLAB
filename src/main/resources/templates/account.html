@@ -106,6 +106,25 @@
                     <input type="hidden" th:value="${createdList.id}" name="listId"/>
                     <input type="submit" value="remove List"/>
                 </form>
+
+                <div th:if="${createdList.actual}">
+                    <form th:action="@{/account/toggleActivationList}" method="post">
+                        <input type="hidden" th:value="${createdList.id}" name="listId"/>
+
+                        <input type="submit" value="deactivate List"/>
+
+
+                    </form>
+                </div>
+                <div th:if="${!createdList.actual}">
+                    <form th:action="@{/account/toggleActivationList}" method="post">
+                        <input type="hidden" th:value="${createdList.id}" name="listId"/>
+
+                        <input type="submit" value="activate List"/>
+
+
+                    </form>
+                </div>
                 <br>
             </td>
         </tr>
