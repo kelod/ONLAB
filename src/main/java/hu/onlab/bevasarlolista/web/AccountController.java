@@ -110,7 +110,9 @@ public class AccountController {
         model.addAttribute("friendsToAdd", friendsToAdd);
 
         List<User> partUsers = new ArrayList<>();
-        partUsers.add(list.getCreatorUser());
+        if(list.getCreatorUser() != user) {
+            partUsers.add(list.getCreatorUser());
+        }
         list.getParticipating_users().forEach(part -> {
             if(part != user){
                 partUsers.add(part);

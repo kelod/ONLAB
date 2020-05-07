@@ -56,13 +56,9 @@ public class ListaService {
 
         TermekLista termekLista = new TermekLista(termekToAdd, actual_list);
         termekLista.setQuantity(productDto.getQuantity());
-        /*termekLista.setLista(actual_list);
-        termekLista.setTermek(termekToAdd);*/
-        /*termekLista.getId().setListaId(actual_list.getId());
-        termekLista.getId().setTermekId(termekToAdd.getId());*/
 
-        /*actual_list.addTermek(termekLista);
-        termekToAdd.addParticipatedList(termekLista);*/
+        termekToAdd.addParticipatedList(termekLista);
+        actual_list.addTermek(termekLista);
 
         termekRepository.save(termekToAdd);
         listaRepository.save(actual_list);

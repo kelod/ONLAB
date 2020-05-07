@@ -17,7 +17,7 @@ import java.util.Set;
 @Table(name = "lista")
 public class Lista {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
