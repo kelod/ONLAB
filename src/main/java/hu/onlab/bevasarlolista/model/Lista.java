@@ -17,12 +17,13 @@ import java.util.Set;
 @Table(name = "lista")
 public class Lista {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
     @ManyToOne
     private User creatorUser;
 
+    @Builder.Default
     @ManyToMany(mappedBy = "participated_lists")
     private Set<User> participating_users = new HashSet<>();
 

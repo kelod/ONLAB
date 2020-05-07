@@ -16,7 +16,7 @@ import java.util.Set;
 public class Shop {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
     @Builder.Default

@@ -80,11 +80,13 @@ public class UserService {
         creator.deleteFromCreatedLists(listToDelete);
         userRepository.save(creator);
 
-        listToDelete.getParticipating_users().forEach(user -> {
-            User participator = userRepository.findById(user.getId()).get();
-            participator.deleteFromParticipatedLists(listToDelete);
-            userRepository.save(participator);
-        });
+        if(list.getParticipating_users().size() != 0) {
+            listToDelete.getParticipating_users().forEach(user -> {
+                User participator = userRepository.findById(user.getId()).get();
+                participator.deleteFromParticipatedLists(listToDelete);
+                userRepository.save(participator);
+            });
+        }
 
         listaRepository.delete(listToDelete);
     }
